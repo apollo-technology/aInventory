@@ -14,7 +14,7 @@
     <div class="largeCard">
         <center>
             <h1>Apollo Inventory</h1>
-            <input type="number" pattern="[0-9]*" inputmode="numeric" name="firstname" placeholder="ID" id="teamNumberField">
+            <input type="number" pattern="[0-9]*" inputmode="numeric" placeholder="ID" id="idField">
             <br>
             <br>
             <button id="loadButton" class="hoverButtonLight" onclick="startSearch()">Load Database</button>
@@ -24,6 +24,11 @@
 <script type="text/javascript">
 Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
 Parse.serverURL = 'https://parseapi.back4app.com';
+
+function startSearch () {
+    window.open("device.html?id=" + document.getElementById("idField").value,"_self");
+}
+
 </script>
 
 </html>

@@ -1,24 +1,68 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Device</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <title>Device</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://parse.com/downloads/javascript/parse-1.6.14.js"></script>
 </head>
+
 <body>
-
-<input type="text" placeholder="placeholder" id="id">
-<input type="text" placeholder="placeholder" id="id">
-<input type="text" placeholder="placeholder" id="id">
-
+    <div class="loadingView">
+        <center>
+            <p>Loading</p>
+            <img src="loading.gif" style="width:15%">
+        </center>
+    </div>
+    <div class="deviceDetail">
+        <p class="deviceTitle" style="text-align:center">iPhone Model</p>
+        <p class="inputFieldText">Device ID</p>
+        <input type="text" class="inputField" placeholder="Device ID" id="idField">
+        <br>
+        <p class="inputFieldText">Model Number</p>
+        <input type="text" class="inputField" placeholder="Model Number" id="modelNumberField">
+        <br>
+        <p class="inputFieldText">IMEI</p>
+        <input type="text" class="inputField" placeholder="IMEI" id="imeiField">
+        <br>
+        <p class="inputFieldText">Carrier</p>
+        <input type="text" class="inputField" placeholder="Carrier" id="carrierField">
+        <br>
+        <p class="inputFieldText">Size</p>
+        <input type="text" class="inputField" placeholder="Size" id="sizeField">
+        <br>
+        <p class="inputFieldText">Model</p>
+        <input type="text" class="inputField" placeholder="Model" id="modelField">
+        <br>
+        <p class="inputFieldText">Color</p>
+        <input type="text" class="inputField" placeholder="Color" id="colorField">
+        <br>
+        <p class="inputFieldText">Value</p>
+        <input type="text" class="inputField" placeholder="Value" id="valueField">
+        <br>
+        <p class="inputFieldText">Color</p>
+        <input type="text" class="inputField" placeholder="Color" id="colorField">
+        <br>
+        <p class="inputFieldText">Is Clean</p>
+        <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField">
+        <br>
+        <p class="inputFieldText">Selling At</p>
+        <input type="text" class="inputField" placeholder="Selling At" id="sellingAtField">
+        <br>
+        <p class="inputFieldText">Quality</p>
+        <input type="text" class="inputField" placeholder="Quality" id="qualityField">
+        <br>
+        <p class="inputFieldText">Notes</p>
+        <input type="text" class="inputField" placeholder="Notes" id="notesField" style="height:100px;">
+    </div>
 </body>
-
 <script type="text/javascript">
-
 Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
 Parse.serverURL = 'https://parseapi.back4app.com';
+var deviceId = getURIParameter("id");
 
-	function getURIParameter(param, asArray) {
+function getURIParameter(param, asArray) {
     return document.location.search.substring(1).split('&').reduce(function(p, c) {
         var parts = c.split('=', 2).map(function(param) {
             return decodeURIComponent(param);
@@ -27,7 +71,54 @@ Parse.serverURL = 'https://parseapi.back4app.com';
         return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
     }, []);
 }
+var devices = Parse.Object.extend("devices");
+var query = new Parse.Query(devices);
+query.equalTo("atId", deviceId);
+query.find({
+    success: function(results) {
+        if (results.length < 1) {
+            alert("wrong number");
+        } else {
+            var device = results[0];
+            var notes = device.get("notes");
+            var forSaleAt = device.get("forSaleAtfo");
+            var color = device.get("color");
+            var isForSale = device.get("isForSale");
+            var imei = device.get("imei");
+            var model = device.get("model");
+            var atId = device.get("atId");
+            var carrier = device.get("carrier");
+            var capacity = device.get("capacity");
+            var condition = device.get("condition");
+            var isClean = device.get("isClean");
+            var value = device.get("value");
+            var modelId = device.get("modelId");
+            // var data = {
+            //     notes : notes,
+            //     forSaleAt : forSaleAt,
+            //     color : color,
+            //     isForSale : isForSale,
+            //     imei : imei,
+            //     model : model,
+            //     atId : atId,
+            //     carrier : carrier,
+            //     capacity : capacity,
+            //     condition : condition,
+            //     isClean : isClean,
+            //     value : value,
+            //     modelId : modelId
+            // };
+            // console.log(data);
 
-document.getElementById("titleLabel").innerHTML = getURIParameter("t");
+            $('.deviceDetail').show()
+            $(".loadingView").hide();
+
+        }
+    },
+    error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
 </script>
+
 </html>
