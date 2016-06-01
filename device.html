@@ -11,12 +11,12 @@
 <body>
     <div class="loadingView">
         <center>
-            <p>Loading</p>
+            <p>Loading...</p>
             <img src="loading.gif" style="width:15%">
         </center>
     </div>
     <div class="deviceDetail">
-        <p class="deviceTitle" style="text-align:center">iPhone Model</p>
+        <p class="deviceTitle" id="deviceTitle" style="text-align:center">iPhone Model</p>
         <p class="inputFieldText">Device ID</p>
         <input type="text" class="inputField" placeholder="Device ID" id="idField">
         <br>
@@ -41,26 +41,38 @@
         <p class="inputFieldText">Value</p>
         <input type="text" class="inputField" placeholder="Value" id="valueField">
         <br>
-        <p class="inputFieldText">Color</p>
-        <input type="text" class="inputField" placeholder="Color" id="colorField">
-        <br>
         <p class="inputFieldText">Is Clean</p>
         <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField">
         <br>
         <p class="inputFieldText">Selling At</p>
         <input type="text" class="inputField" placeholder="Selling At" id="sellingAtField">
         <br>
+        <p class="inputFieldText">Is Selling</p>
+        <input type="text" class="inputField" placeholder="Is Selling" id="isSellingField">
+        <br>
         <p class="inputFieldText">Quality</p>
         <input type="text" class="inputField" placeholder="Quality" id="qualityField">
         <br>
         <p class="inputFieldText">Notes</p>
         <input type="text" class="inputField" placeholder="Notes" id="notesField" style="height:100px;">
+        <br>
+        <br>
+        <center>
+            <div class="leftCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="cancel()">Cancel</button>
+            </div>
+            <div class="rightCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            </div>
+        </center>
     </div>
 </body>
 <script type="text/javascript">
 Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
 Parse.serverURL = 'https://parseapi.back4app.com';
 var deviceId = getURIParameter("id");
+
+var deviceParseId;
 
 function getURIParameter(param, asArray) {
     return document.location.search.substring(1).split('&').reduce(function(p, c) {
@@ -77,9 +89,11 @@ query.equalTo("atId", deviceId);
 query.find({
     success: function(results) {
         if (results.length < 1) {
-            alert("wrong number");
+            alert("Device does not exist.");
+            window.open("index.html", "_self");
         } else {
             var device = results[0];
+            deviceParseId = device.id;
             var notes = device.get("notes");
             var forSaleAt = device.get("forSaleAtfo");
             var color = device.get("color");
@@ -93,32 +107,87 @@ query.find({
             var isClean = device.get("isClean");
             var value = device.get("value");
             var modelId = device.get("modelId");
+
+            document.getElementById("notesField").value = notes;
+            document.getElementById("sellingAtField").value = forSaleAt;
+            document.getElementById("colorField").value = color;
+            document.getElementById("isSellingField").value = isForSale;
+            document.getElementById("imeiField").value = imei;
+            document.getElementById("modelField").value = model;
+            document.getElementById("idField").value = atId;
+            document.getElementById("carrierField").value = carrier;
+            document.getElementById("sizeField").value = capacity;
+            document.getElementById("qualityField").value = condition;
+            document.getElementById("isCleanField").value = isClean;
+            document.getElementById("valueField").value = "$" + value;
+            document.getElementById("modelNumberField").value = modelId;
+            document.getElementById("deviceTitle").innerHTML = model;
+
             // var data = {
-            //     notes : notes,
-            //     forSaleAt : forSaleAt,
-            //     color : color,
-            //     isForSale : isForSale,
-            //     imei : imei,
-            //     model : model,
-            //     atId : atId,
-            //     carrier : carrier,
-            //     capacity : capacity,
-            //     condition : condition,
-            //     isClean : isClean,
-            //     value : value,
-            //     modelId : modelId
+            //     notes: notes,
+            //     forSaleAt: forSaleAt,
+            //     color: color,
+            //     isForSale: isForSale,
+            //     imei: imei,
+            //     model: model,
+            //     atId: atId,
+            //     carrier: carrier,
+            //     capacity: capacity,
+            //     condition: condition,
+            //     isClean: isClean,
+            //     value: value,
+            //     modelId: modelId
             // };
             // console.log(data);
 
             $('.deviceDetail').show()
             $(".loadingView").hide();
-
         }
     },
     error: function(error) {
         alert("Error: " + error.code + " " + error.message);
     }
 });
+
+function cancel() {
+    window.open("index.html", "_self");
+}
+
+function update() {
+    $('.deviceDetail').hide()
+    $(".loadingView").show();
+    // Create a pointer to an object of class Point with id dlkj83d
+    var DeviceClass = Parse.Object.extend("devices");
+    var device = new DeviceClass();
+    device.id = deviceParseId;
+
+    // Set a new value on quantity
+    device.set("notes", document.getElementById("notesField").value);
+    device.set("forSaleAt", document.getElementById("sellingAtField").value);
+    device.set("color", document.getElementById("colorField").value);
+    device.set("isForSale", Boolean(document.getElementById("isSellingField").value));
+    device.set("imei", document.getElementById("imeiField").value);
+    device.set("model", document.getElementById("modelField").value);
+    device.set("atId", document.getElementById("idField").value);
+    device.set("carrier", document.getElementById("carrierField").value);
+    device.set("capacity", document.getElementById("sizeField").value);
+    device.set("condition", document.getElementById("qualityField").value);
+    device.set("isClean", Boolean(document.getElementById("isCleanField").value));
+    device.set("value", document.getElementById("valueField").value);
+    device.set("modelId", document.getElementById("modelNumberField").value);
+
+    // Save
+    device.save(null, {
+        success: function(device) {
+            // Saved successfully.
+            window.open("index.html","_self");
+        },
+        error: function(device, error) {
+            // The save failed.
+            // error is a Parse.Error with an error code and description.
+        }
+    });
+}
 </script>
 
 </html>
