@@ -79,7 +79,8 @@
         <input type="text" class="inputField" placeholder="Value" id="valueField">
         <br>
         <p class="inputFieldText">Is Clean</p>
-        <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField">
+        <!-- <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField"> -->
+        <input type="checkbox" name="vehicle" value="Bike" id="isCleanField">
         <br>
         <p class="inputFieldText">Selling At</p>
         <select name="selling" id="sellingAtField">
@@ -90,7 +91,8 @@
         </select>
         <br>
         <p class="inputFieldText">Is Selling</p>
-        <input type="text" class="inputField" placeholder="Is Selling" id="isSellingField">
+        <!-- <input type="text" class="inputField" placeholder="Is Selling" id="isSellingField"> -->
+        <input type="checkbox" name="vehicle" value="Bike" id="isSellingField">
         <br>
         <p class="inputFieldText">Quality</p>
         <select name="quality" id="qualityField">
@@ -153,14 +155,14 @@ query.find({
             document.getElementById("notesField").value = notes;
             document.getElementById("sellingAtField").value = forSaleAt;
             document.getElementById("colorField").value = color;
-            document.getElementById("isSellingField").value = isForSale;
+            document.getElementById("isSellingField").checked = isForSale;
             document.getElementById("imeiField").value = imei;
             document.getElementById("modelField").value = model;
             document.getElementById("idField").value = atId;
             document.getElementById("carrierField").value = carrier;
             document.getElementById("sizeField").value = capacity;
             document.getElementById("qualityField").value = condition;
-            document.getElementById("isCleanField").value = isClean;
+            document.getElementById("isCleanField").checked = isClean;
             document.getElementById("valueField").value = "$" + value;
             document.getElementById("modelNumberField").value = modelId;
             document.getElementById("deviceTitle").innerHTML = model;
@@ -190,14 +192,14 @@ function update() {
     device.set("notes", document.getElementById("notesField").value);
     device.set("forSaleAt", document.getElementById("sellingAtField").value);
     device.set("color", document.getElementById("colorField").value);
-    device.set("isForSale", Boolean(document.getElementById("isSellingField").value));
+    device.set("isForSale", Boolean(document.getElementById("isSellingField").checked));
     device.set("imei", document.getElementById("imeiField").value);
     device.set("model", document.getElementById("modelField").value);
     device.set("atId", document.getElementById("idField").value);
     device.set("carrier", document.getElementById("carrierField").value);
     device.set("capacity", document.getElementById("sizeField").value);
     device.set("condition", document.getElementById("qualityField").value);
-    device.set("isClean", Boolean(document.getElementById("isCleanField").value));
+    device.set("isClean", Boolean(document.getElementById("isCleanField").checked));
     device.set("value", document.getElementById("valueField").value);
     device.set("modelId", document.getElementById("modelNumberField").value);
 
