@@ -11,7 +11,7 @@
 <body>
     <center>
         <div class="leftCard">
-            <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Parts</button>
+            <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Repairs</button>
         </div>
     </center>
     <div class="loadingView">
@@ -21,27 +21,30 @@
         </center>
     </div>
     <div class="deviceDetail">
-        <p class="deviceTitle" id="clientField" style="text-align:center">Part</p>
-        <p class="inputFieldText">Part ID</p>
-        <input type="text" class="inputField" placeholder="Device ID" id="phoneField">
+        <p class="deviceTitle" id="clientField" style="text-align:center">Client</p>
+        <p class="inputFieldText">Name</p>
+        <input type="text" class="inputField" placeholder="Name" id="nameField">
+        <br>
+        <p class="inputFieldText">Phone</p>
+        <input type="text" class="inputField" placeholder="Phone" id="phoneField">
         <br>
         <p class="inputFieldText">Model</p>
         <input type="text" class="inputField" placeholder="Model" id="modelField">
         <br>
+        <p class="inputFieldText">Kind</p>
+        <input type="text" class="inputField" placeholder="Kind" id="kindField">
+        <br>
         <p class="inputFieldText">Color</p>
         <input type="text" class="inputField" placeholder="Color" id="colorField">
         <br>
-        <p class="inputFieldText">Value</p>
-        <input type="text" class="inputField" placeholder="Value" id="kindField">
-        <br>
-        <p class="inputFieldText">Kind</p>
-        <input type="text" class="inputField" placeholder="Kind" id="didRepairField">
-        <br>
-        <p class="inputFieldText">Is Completed</p>
-        <input type="text" class="inputField" placeholder="Kind" id="isCompletedField">
-        <br>
         <p class="inputFieldText">Date</p>
         <input type="text" class="inputField" placeholder="Date" id="dateField">
+        <br>
+        <p class="inputFieldText">Technician</p>
+        <input type="text" class="inputField" placeholder="Technician" id="didRepairField">
+        <br>
+        <p class="inputFieldText">Is Completed</p>
+        <input type="text" class="inputField" placeholder="Is Completed" id="isCompletedField">
         <br>
         <p class="inputFieldText">Final Bill</p>
         <input type="text" class="inputField" placeholder="Final Bill" id="finalBillField">
@@ -60,6 +63,8 @@ Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1
 Parse.serverURL = 'https://parseapi.back4app.com';
 var deviceId = getURIParameter("id");
 
+var repairObject;
+
 var deviceParseId;
 
 function getURIParameter(param, asArray) {
@@ -71,62 +76,43 @@ function getURIParameter(param, asArray) {
         return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
     }, []);
 }
-var devices = Parse.Object.extend("parts");
-var query = new Parse.Query(devices);
-query.equalTo("objectId", deviceId);
-query.find({
-    success: function(results) {
-        if (results.length < 1) {
-            alert("Repair does not exist.");
-            //window.open("index.html", "_self");
-        } else {
-            var device = results[0];
-            deviceParseId = device.id;
-            var notes = device.get("notes");
-            var color = device.get("color");
-            var model = device.get("model");
-            var value = device.get("finalBill");
-            var kind = device.get("kind");
-            var completed = device.get("isCompleted");
-            var date = device.get("date");
-            var phone = device.get("clientPhone");
-            var name = device.get("clientNamr");
-            var didRepair = device.get("technician");
 
-            document.getElementById("notesField").value = notes;
-            document.getElementById("colorField").value = color;
-            document.getElementById("modelField").value = model;
-            document.getElementById("nameField").value = name;
-            document.getElementById("valueField").value = value;
-            document.getElementById("isCompletedField").value = isCompleted;
-            document.getElementById("partTitle").innerHTML = model + " " + kind;
-            document.getElementById("kindField").value = kind;
-            document.getElementById("didRepairField").value = didRepair;
-            document.getElementById("phoneField").value = phone;
-            document.getElementById("dateField").value = date;
+var GameScore = Parse.Object.extend("repairs");
+var query = new Parse.Query(GameScore);
+query.get(deviceId, {
+    success: function(device) {
+        // The object was retrieved successfully.
+        deviceParseId = device.id;
+        repairObject = device;
+        var notes = device.get("notes");
+        var color = device.get("color");
+        var model = device.get("model");
+        var finalBill = device.get("finalBill");
+        var kind = device.get("kind");
+        var completed = device.get("isCompleted");
+        var date = device.get("date");
+        var phone = device.get("clientPhone");
+        var name = device.get("clientName");
+        var didRepair = device.get("technician");
 
-            // var data = {
-            //     notes: notes,
-            //     forSaleAt: forSaleAt,
-            //     color: color,
-            //     isForSale: isForSale,
-            //     imei: imei,
-            //     model: model,
-            //     atId: atId,
-            //     carrier: carrier,
-            //     capacity: capacity,
-            //     condition: condition,
-            //     isClean: isClean,
-            //     value: value,
-            //     modelId: modelId
-            // };
-            // console.log(data);
+        document.getElementById("notesField").value = notes;
+        document.getElementById("colorField").value = color;
+        document.getElementById("modelField").value = model;
+        document.getElementById("nameField").value = name;
+        document.getElementById("finalBillField").value = finalBill;
+        document.getElementById("isCompletedField").value = completed;
+        document.getElementById("clientField").innerHTML = model + " " + kind + " for " + name;
+        document.getElementById("kindField").value = kind;
+        document.getElementById("didRepairField").value = didRepair;
+        document.getElementById("phoneField").value = phone;
+        document.getElementById("dateField").value = date;
 
-            $('.deviceDetail').show()
-            $(".loadingView").hide();
-        }
+        $('.deviceDetail').show()
+        $(".loadingView").hide();
     },
-    error: function(error) {
+    error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
         alert("Error: " + error.code + " " + error.message);
     }
 });
@@ -138,30 +124,25 @@ function cancel() {
 function update() {
     $('.deviceDetail').hide()
     $(".loadingView").show();
-    // Create a pointer to an object of class Point with id dlkj83d
-    var DeviceClass = Parse.Object.extend("parts");
-    var device = new DeviceClass();
-    device.id = deviceParseId;
 
-    // Set a new value on quantity
+    repairObject.set("notes", document.getElementById("notesField").value);
+    repairObject.set("color", document.getElementById("colorField").value);
+    repairObject.set("model", document.getElementById("modelField").value);
+    repairObject.set("clientName", document.getElementById("nameField").value);
+    repairObject.set("finalBill", document.getElementById("finalBillField").value);
+    if (document.getElementById("isCompletedField").value == "true") {
+        repairObject.set("isCompleted", true);
+    } else {
+        repairObject.set("isCompleted", false);
+    }
+    repairObject.set("kind", document.getElementById("kindField").value);
+    repairObject.set("technician", document.getElementById("didRepairField").value);
+    repairObject.set("clientPhone", document.getElementById("phoneField").value);
+    repairObject.set("date", document.getElementById("dateField").value);
 
-    console.log(document.getElementById("valueField").value);
-    device.set("notes", document.getElementById("notesField").value);
-    device.set("color", document.getElementById("colorField").value);
-    device.set("model", document.getElementById("modelField").value);
-    device.set("atpId", document.getElementById("idField").value);
-    device.set("kind", document.getElementById("kindField").value);
-    device.set("purchasePrice", document.getElementById("valueField").value);
-
-    // Save
-    device.save(null, {
-        success: function(device) {
-            // Saved successfully.
-            window.open("parts.html", "_self");
-        },
-        error: function(device, error) {
-            // The save failed.
-            // error is a Parse.Error with an error code and description.
+    repairObject.save(null, {
+        success: function(repairObject) {
+            window.open("repairs.html", "_self");
         }
     });
 }
