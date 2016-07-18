@@ -32,16 +32,48 @@
         <input type="text" class="inputField" placeholder="IMEI" id="imeiField">
         <br>
         <p class="inputFieldText">Carrier</p>
-        <input type="text" class="inputField" placeholder="Carrier" id="carrierField">
+        <select name="carrier" id="carrierField">
+            <option value="GSM">GSM</option>
+            <option value="CDMA">CDMA</option>
+            <option value="Unlocked">Unlocked</option>
+        </select>
         <br>
         <p class="inputFieldText">Size</p>
-        <input type="text" class="inputField" placeholder="Size" id="sizeField">
+        <select name="capacity" id="sizeField">
+            <option value="8GB">8 GB</option>
+            <option value="16GB">16 GB</option>
+            <option value="32GB">32 GB</option>
+            <option value="64GB">64 GB</option>
+            <option value="128GB">128 GB</option>
+        </select>
         <br>
         <p class="inputFieldText">Model</p>
-        <input type="text" class="inputField" placeholder="Model" id="modelField">
+        <select name="model" id="modelField">
+            <option value="iPhone 4">iPhone 4</option>
+            <option value="iPhone 4s">iPhone 4S</option>
+            <option value="iPhone 5">iPhone 5</option>
+            <option value="iPhone 5c">iPhone 5C</option>
+            <option value="iPhone 5s">iPhone 5S</option>
+            <option value="iPhone SE">iPhone SE</option>
+            <option value="iPhone 6">iPhone 6</option>
+            <option value="iPhone 6+">iPhone 6 Plus</option>
+            <option value="iPhone 6s">iPhone 6S</option>
+            <option value="iPhone 6s+">iPhone 6S Plus</option>
+        </select>
         <br>
         <p class="inputFieldText">Color</p>
-        <input type="text" class="inputField" placeholder="Color" id="colorField">
+        <select name="color" id="colorField">
+            <option value="Space Gray">Space Gray</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Rose Gold">Rose Gold</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Green">Green</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Pink">Pink</option>
+        </select>
         <br>
         <p class="inputFieldText">Value</p>
         <input type="text" class="inputField" placeholder="Value" id="valueField">
@@ -50,13 +82,23 @@
         <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField">
         <br>
         <p class="inputFieldText">Selling At</p>
-        <input type="text" class="inputField" placeholder="Selling At" id="sellingAtField">
+        <select name="selling" id="sellingAtField">
+            <option value="eBay">eBay</option>
+            <option value="Swappa">Swappa</option>
+            <option value="Both">Both</option>
+            <option value="None">None</option>
+        </select>
         <br>
         <p class="inputFieldText">Is Selling</p>
         <input type="text" class="inputField" placeholder="Is Selling" id="isSellingField">
         <br>
         <p class="inputFieldText">Quality</p>
-        <input type="text" class="inputField" placeholder="Quality" id="qualityField">
+        <select name="quality" id="qualityField">
+            <option value="Fair">Fair</option>
+            <option value="Good">Good</option>
+            <option value="Mint">Mint</option>
+            <option value="New">New</option>
+        </select>
         <br>
         <p class="inputFieldText">Notes</p>
         <textarea type="text" class="inputField" placeholder="Notes" id="notesField" style="height:100px;"></textarea>
@@ -95,7 +137,7 @@ query.find({
             var device = results[0];
             deviceParseId = device.id;
             var notes = device.get("notes");
-            var forSaleAt = device.get("forSaleAtfo");
+            var forSaleAt = device.get("forSaleAt");
             var color = device.get("color");
             var isForSale = device.get("isForSale");
             var imei = device.get("imei");
@@ -122,23 +164,6 @@ query.find({
             document.getElementById("valueField").value = "$" + value;
             document.getElementById("modelNumberField").value = modelId;
             document.getElementById("deviceTitle").innerHTML = model;
-
-            // var data = {
-            //     notes: notes,
-            //     forSaleAt: forSaleAt,
-            //     color: color,
-            //     isForSale: isForSale,
-            //     imei: imei,
-            //     model: model,
-            //     atId: atId,
-            //     carrier: carrier,
-            //     capacity: capacity,
-            //     condition: condition,
-            //     isClean: isClean,
-            //     value: value,
-            //     modelId: modelId
-            // };
-            // console.log(data);
 
             $('.deviceDetail').show()
             $(".loadingView").hide();
