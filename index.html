@@ -13,11 +13,12 @@
         <center>
             <h1>Apollo Inventory</h1>
             <button id="loadButton" class="hoverButtonLight" onclick="devices()">Devices</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="startSearch()">Parts</button>
+            <button id="loadButton" class="hoverButtonLight" onclick="parts()">Parts</button>
+            <button id="loadButton" class="hoverButtonLight" onclick="repairs()">Repairs</button>
             <button id="loadButton" class="hoverButtonLight" onclick="swappaSeller()">Swappa Seller</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="paypal()">PayPal</button>
+            <!-- <button id="loadButton" class="hoverButtonLight" onclick="paypal()">PayPal</button>
             <button id="loadButton" class="hoverButtonLight" onclick="ebay()">eBay</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="swappa()">Swappa</button>
+            <button id="loadButton" class="hoverButtonLight" onclick="swappa()">Swappa</button> -->
         </center>
     </div>
 </body>
@@ -26,7 +27,11 @@ Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1
 Parse.serverURL = 'https://parseapi.back4app.com';
 
 function parts () {
-    window.open("swappaSeller.html","_self");
+    window.open("parts.html","_self");
+}
+
+function repairs () {
+    window.open("repairs.html","_self");
 }
 
 function devices () {

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Part</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="parse.js"></script>
+</head>
+
+<body>
+    <center>
+        <div class="leftCard">
+            <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Parts</button>
+        </div>
+    </center>
+    <div class="loadingView">
+        <center>
+            <p>Loading...</p>
+            <img src="loading.gif" style="width:15%">
+        </center>
+    </div>
+    <div class="deviceDetail">
+        <p class="deviceTitle" id="partTitle" style="text-align:center">Part</p>
+        <p class="inputFieldText">Part ID</p>
+        <input type="text" class="inputField" placeholder="Device ID" id="idField">
+        <br>
+        <p class="inputFieldText">Model</p>
+        <input type="text" class="inputField" placeholder="Model" id="modelField">
+        <br>
+        <p class="inputFieldText">Color</p>
+        <input type="text" class="inputField" placeholder="Color" id="colorField">
+        <br>
+        <p class="inputFieldText">Value</p>
+        <input type="text" class="inputField" placeholder="Value" id="valueField">
+        <br>
+        <p class="inputFieldText">Kind</p>
+        <input type="text" class="inputField" placeholder="Kind" id="kindField">
+        <br>
+        <p class="inputFieldText">Notes</p>
+        <input type="text" class="inputField" placeholder="Notes" id="notesField" style="height:100px;">
+        <br>
+        <br>
+        <center>
+            <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+        </center>
+    </div>
+</body>
+<script type="text/javascript">
+Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
+Parse.serverURL = 'https://parseapi.back4app.com';
+var deviceId = getURIParameter("id");
+
+var deviceParseId;
+
+function getURIParameter(param, asArray) {
+    return document.location.search.substring(1).split('&').reduce(function(p, c) {
+        var parts = c.split('=', 2).map(function(param) {
+            return decodeURIComponent(param);
+        });
+        if (parts.length == 0 || parts[0] != param) return (p instanceof Array) && !asArray ? null : p;
+        return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
+    }, []);
+}
+var devices = Parse.Object.extend("parts");
+var query = new Parse.Query(devices);
+query.equalTo("atpId", deviceId);
+query.find({
+    success: function(results) {
+        if (results.length < 1) {
+            alert("Part does not exist.");
+            //window.open("index.html", "_self");
+        } else {
+            var device = results[0];
+            deviceParseId = device.id;
+            var notes = device.get("notes");
+            var color = device.get("color");
+            var model = device.get("model");
+            var atpId = device.get("atpId");
+            var value = device.get("purchasePrice");
+            var kind = device.get("kind");
+
+            document.getElementById("notesField").value = notes;
+            document.getElementById("colorField").value = color;
+            document.getElementById("modelField").value = model;
+            document.getElementById("idField").value = atpId;
+            document.getElementById("valueField").value = value;
+            document.getElementById("partTitle").innerHTML = model + " " + kind;
+            document.getElementById("kindField").value = kind;
+
+            // var data = {
+            //     notes: notes,
+            //     forSaleAt: forSaleAt,
+            //     color: color,
+            //     isForSale: isForSale,
+            //     imei: imei,
+            //     model: model,
+            //     atId: atId,
+            //     carrier: carrier,
+            //     capacity: capacity,
+            //     condition: condition,
+            //     isClean: isClean,
+            //     value: value,
+            //     modelId: modelId
+            // };
+            // console.log(data);
+
+            $('.deviceDetail').show()
+            $(".loadingView").hide();
+        }
+    },
+    error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
+
+function cancel() {
+    window.open("parts.html", "_self");
+}
+
+function update() {
+    $('.deviceDetail').hide()
+    $(".loadingView").show();
+    // Create a pointer to an object of class Point with id dlkj83d
+    var DeviceClass = Parse.Object.extend("parts");
+    var device = new DeviceClass();
+    device.id = deviceParseId;
+
+    // Set a new value on quantity
+
+    console.log(document.getElementById("valueField").value);
+    device.set("notes", document.getElementById("notesField").value);
+    device.set("color", document.getElementById("colorField").value);
+    device.set("model", document.getElementById("modelField").value);
+    device.set("atpId", document.getElementById("idField").value);
+    device.set("kind", document.getElementById("kindField").value);
+    device.set("purchasePrice", document.getElementById("valueField").value);
+
+    // Save
+    device.save(null, {
+        success: function(device) {
+            // Saved successfully.
+            window.open("parts.html", "_self");
+        },
+        error: function(device, error) {
+            // The save failed.
+            // error is a Parse.Error with an error code and description.
+        }
+    });
+}
+$('.deviceDetail').hide()
+$(".loadingView").show();
+</script>
+
+</html>
