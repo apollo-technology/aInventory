@@ -29,22 +29,59 @@
         <input type="text" class="inputField" placeholder="Phone" id="phoneField">
         <br>
         <p class="inputFieldText">Model</p>
-        <input type="text" class="inputField" placeholder="Model" id="modelField">
+        <select name="model" id="modelField">
+            <option value="iPhone 4">iPhone 4</option>
+            <option value="iPhone 4s">iPhone 4S</option>
+            <option value="iPhone 5">iPhone 5</option>
+            <option value="iPhone 5c">iPhone 5C</option>
+            <option value="iPhone 5s">iPhone 5S</option>
+            <option value="iPhone SE">iPhone SE</option>
+            <option value="iPhone 6">iPhone 6</option>
+            <option value="iPhone 6+">iPhone 6 Plus</option>
+            <option value="iPhone 6s">iPhone 6S</option>
+            <option value="iPhone 6s+">iPhone 6S Plus</option>
+        </select>
         <br>
         <p class="inputFieldText">Kind</p>
-        <input type="text" class="inputField" placeholder="Kind" id="kindField">
+        <select name="model" id="kindField">
+            <option value="Screen">Screen</option>
+            <option value="Home Button">Home Button</option>
+            <option value="Battery">Battery</option>
+            <option value="Front Camera">Front Camera</option>
+            <option value="Back Camera">Back Camera</option>
+            <option value="Lock Button">Lock Button</option>
+            <option value="Sim Tray">Sim Tray</option>
+            <option value="Digitizer & LCD">Digitizer & LCD</option>
+            <option value="Logic Board">iPhone 6S Plus</option>
+            <option value="Ear Piece">Ear Piece</option>
+        </select>
         <br>
         <p class="inputFieldText">Color</p>
-        <input type="text" class="inputField" placeholder="Color" id="colorField">
+        <select name="color" id="colorField">
+            <option value="Space Gray">Space Gray</option>
+            <option value="Silver">Silver</option>
+            <option value="Gold">Gold</option>
+            <option value="Rose Gold">Rose Gold</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Green">Green</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Pink">Pink</option>
+        </select>
         <br>
         <p class="inputFieldText">Date</p>
         <input type="text" class="inputField" placeholder="Date" id="dateField">
         <br>
         <p class="inputFieldText">Technician</p>
-        <input type="text" class="inputField" placeholder="Technician" id="didRepairField">
+        <select name="color" id="didRepairField">
+            <option value="Elijah">Elijah</option>
+            <option value="Austin">Austin</option>
+            <option value="Daniel">Daniel</option>
+        </select>
         <br>
         <p class="inputFieldText">Is Completed</p>
-        <input type="text" class="inputField" placeholder="Is Completed" id="isCompletedField">
+        <input type="checkbox" name="vehicle" value="Bike" id="isCompletedField">
         <br>
         <p class="inputFieldText">Final Bill</p>
         <input type="text" class="inputField" placeholder="Final Bill" id="finalBillField">
@@ -100,7 +137,7 @@ query.get(deviceId, {
         document.getElementById("modelField").value = model;
         document.getElementById("nameField").value = name;
         document.getElementById("finalBillField").value = finalBill;
-        document.getElementById("isCompletedField").value = completed;
+        document.getElementById("isCompletedField").checked = completed;
         document.getElementById("clientField").innerHTML = model + " " + kind + " for " + name;
         document.getElementById("kindField").value = kind;
         document.getElementById("didRepairField").value = didRepair;
@@ -130,12 +167,8 @@ function update() {
     repairObject.set("model", document.getElementById("modelField").value);
     repairObject.set("clientName", document.getElementById("nameField").value);
     repairObject.set("finalBill", document.getElementById("finalBillField").value);
-    if (document.getElementById("isCompletedField").value == "true") {
-        repairObject.set("isCompleted", true);
-    } else {
-        repairObject.set("isCompleted", false);
-    }
     repairObject.set("kind", document.getElementById("kindField").value);
+    repairObject.set("kind", document.getElementById("kindField").checked);
     repairObject.set("technician", document.getElementById("didRepairField").value);
     repairObject.set("clientPhone", document.getElementById("phoneField").value);
     repairObject.set("date", document.getElementById("dateField").value);
