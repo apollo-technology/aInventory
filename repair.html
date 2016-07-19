@@ -91,7 +91,12 @@
         <br>
         <br>
         <center>
-            <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            <div class="leftCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="deleteObject()">Delete</button>
+            </div>
+            <div class="rightCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            </div>
         </center>
     </div>
 </body>
@@ -104,6 +109,25 @@ var repairObject;
 
 var deviceParseId;
 
+$('.deviceDetail').hide()
+$(".loadingView").show();
+
+function deleteObject() {
+    $('.deviceDetail').hide();
+    $(".loadingView").show();
+    repairObject.destroy({
+        success: function(repairObject) {
+            // The object was deleted from the Parse Cloud.
+            cancel();
+        },
+        error: function(repairObject, error) {
+            // The delete failed.
+            // error is a Parse.Error with an error code and message.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+}
+
 function getURIParameter(param, asArray) {
     return document.location.search.substring(1).split('&').reduce(function(p, c) {
         var parts = c.split('=', 2).map(function(param) {
@@ -113,46 +137,50 @@ function getURIParameter(param, asArray) {
         return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
     }, []);
 }
+if (deviceId) {
+    var GameScore = Parse.Object.extend("repairs");
+    var query = new Parse.Query(GameScore);
+    query.get(deviceId, {
+        success: function(device) {
+            // The object was retrieved successfully.
+            deviceParseId = device.id;
+            repairObject = device;
+            var notes = device.get("notes");
+            var color = device.get("color");
+            var model = device.get("model");
+            var finalBill = device.get("finalBill");
+            var kind = device.get("kind");
+            var completed = device.get("isCompleted");
+            var date = device.get("date");
+            var phone = device.get("clientPhone");
+            var name = device.get("clientName");
+            var didRepair = device.get("technician");
 
-var GameScore = Parse.Object.extend("repairs");
-var query = new Parse.Query(GameScore);
-query.get(deviceId, {
-    success: function(device) {
-        // The object was retrieved successfully.
-        deviceParseId = device.id;
-        repairObject = device;
-        var notes = device.get("notes");
-        var color = device.get("color");
-        var model = device.get("model");
-        var finalBill = device.get("finalBill");
-        var kind = device.get("kind");
-        var completed = device.get("isCompleted");
-        var date = device.get("date");
-        var phone = device.get("clientPhone");
-        var name = device.get("clientName");
-        var didRepair = device.get("technician");
+            document.getElementById("notesField").value = notes;
+            document.getElementById("colorField").value = color;
+            document.getElementById("modelField").value = model;
+            document.getElementById("nameField").value = name;
+            document.getElementById("finalBillField").value = finalBill;
+            document.getElementById("isCompletedField").checked = completed;
+            document.getElementById("clientField").innerHTML = model + " " + kind + " for " + name;
+            document.getElementById("kindField").value = kind;
+            document.getElementById("didRepairField").value = didRepair;
+            document.getElementById("phoneField").value = phone;
+            document.getElementById("dateField").value = date;
 
-        document.getElementById("notesField").value = notes;
-        document.getElementById("colorField").value = color;
-        document.getElementById("modelField").value = model;
-        document.getElementById("nameField").value = name;
-        document.getElementById("finalBillField").value = finalBill;
-        document.getElementById("isCompletedField").checked = completed;
-        document.getElementById("clientField").innerHTML = model + " " + kind + " for " + name;
-        document.getElementById("kindField").value = kind;
-        document.getElementById("didRepairField").value = didRepair;
-        document.getElementById("phoneField").value = phone;
-        document.getElementById("dateField").value = date;
-
-        $('.deviceDetail').show()
-        $(".loadingView").hide();
-    },
-    error: function(object, error) {
-        // The object was not retrieved successfully.
-        // error is a Parse.Error with an error code and message.
-        alert("Error: " + error.code + " " + error.message);
-    }
-});
+            $('.deviceDetail').show()
+            $(".loadingView").hide();
+        },
+        error: function(object, error) {
+            // The object was not retrieved successfully.
+            // error is a Parse.Error with an error code and message.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+} else {
+    $('.deviceDetail').show()
+    $(".loadingView").hide();
+}
 
 function cancel() {
     window.open("repairs.html", "_self");
@@ -162,25 +190,45 @@ function update() {
     $('.deviceDetail').hide()
     $(".loadingView").show();
 
-    repairObject.set("notes", document.getElementById("notesField").value);
-    repairObject.set("color", document.getElementById("colorField").value);
-    repairObject.set("model", document.getElementById("modelField").value);
-    repairObject.set("clientName", document.getElementById("nameField").value);
-    repairObject.set("finalBill", document.getElementById("finalBillField").value);
-    repairObject.set("kind", document.getElementById("kindField").value);
-    repairObject.set("kind", document.getElementById("kindField").checked);
-    repairObject.set("technician", document.getElementById("didRepairField").value);
-    repairObject.set("clientPhone", document.getElementById("phoneField").value);
-    repairObject.set("date", document.getElementById("dateField").value);
+    if (deviceId) {
+        repairObject.set("notes", document.getElementById("notesField").value);
+        repairObject.set("color", document.getElementById("colorField").value);
+        repairObject.set("model", document.getElementById("modelField").value);
+        repairObject.set("clientName", document.getElementById("nameField").value);
+        repairObject.set("finalBill", document.getElementById("finalBillField").value);
+        repairObject.set("kind", document.getElementById("kindField").value);
+        repairObject.set("isCompleted", Boolean(document.getElementById("isCompletedField").checked));
+        repairObject.set("technician", document.getElementById("didRepairField").value);
+        repairObject.set("clientPhone", document.getElementById("phoneField").value);
+        repairObject.set("date", document.getElementById("dateField").value);
 
-    repairObject.save(null, {
-        success: function(repairObject) {
-            window.open("repairs.html", "_self");
-        }
-    });
+        repairObject.save(null, {
+            success: function(repairObject) {
+                window.open("repairs.html", "_self");
+            }
+        });
+    } else {
+        // Simple syntax to create a new subclass of Parse.Object.
+        var GameScore = Parse.Object.extend("repairs");
+        var newRepair = new GameScore();
+        newRepair.set("notes", document.getElementById("notesField").value);
+        newRepair.set("color", document.getElementById("colorField").value);
+        newRepair.set("model", document.getElementById("modelField").value);
+        newRepair.set("clientName", document.getElementById("nameField").value);
+        newRepair.set("finalBill", document.getElementById("finalBillField").value);
+        newRepair.set("kind", document.getElementById("kindField").value);
+        newRepair.set("isCompleted", Boolean(document.getElementById("isCompletedField").checked));
+        newRepair.set("technician", document.getElementById("didRepairField").value);
+        newRepair.set("clientPhone", document.getElementById("phoneField").value);
+        newRepair.set("date", document.getElementById("dateField").value);
+
+        newRepair.save(null, {
+            success: function(newRepair) {
+                window.open("repairs.html", "_self");
+            }
+        });
+    }
 }
-$('.deviceDetail').hide()
-$(".loadingView").show();
 </script>
 
 </html>

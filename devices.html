@@ -30,11 +30,15 @@
                 <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Home</button>
             </div>
             <div class="rightCard">
-                
+                <button id="loadButton" class="hoverButtonDark" onclick="swappaSeller()">New</button>
             </div>
         </center>
 </body>
 <script type="text/javascript">
+
+function swappaSeller () {
+    window.open("device.html","_self");
+}
 
 Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
 Parse.serverURL = 'https://parseapi.back4app.com';

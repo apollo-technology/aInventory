@@ -69,7 +69,12 @@
         <br>
         <br>
         <center>
-            <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            <div class="leftCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="deleteObject()">Delete</button>
+            </div>
+            <div class="rightCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            </div>
         </center>
     </div>
 </body>
@@ -80,6 +85,9 @@ var deviceId = getURIParameter("id");
 
 var deviceParseId;
 
+$('.deviceDetail').hide()
+$(".loadingView").show();
+
 function getURIParameter(param, asArray) {
     return document.location.search.substring(1).split('&').reduce(function(p, c) {
         var parts = c.split('=', 2).map(function(param) {
@@ -89,60 +97,65 @@ function getURIParameter(param, asArray) {
         return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
     }, []);
 }
-var devices = Parse.Object.extend("parts");
-var query = new Parse.Query(devices);
-query.equalTo("atpId", deviceId);
-query.find({
-    success: function(results) {
-        if (results.length < 1) {
-            alert("Part does not exist.");
-            //window.open("index.html", "_self");
-        } else {
-            var device = results[0];
-            deviceParseId = device.id;
-            var notes = device.get("notes");
-            var color = device.get("color");
-            var model = device.get("model");
-            var atpId = device.get("atpId");
-            var value = device.get("purchasePrice");
-            var kind = device.get("kind");
+if (deviceId) {
+    var devices = Parse.Object.extend("parts");
+    var query = new Parse.Query(devices);
+    query.equalTo("atpId", deviceId);
+    query.find({
+        success: function(results) {
+            if (results.length < 1) {
+                alert("Part does not exist.");
+                //window.open("index.html", "_self");
+            } else {
+                var device = results[0];
+                deviceParseId = device.id;
+                var notes = device.get("notes");
+                var color = device.get("color");
+                var model = device.get("model");
+                var atpId = device.get("atpId");
+                var value = device.get("purchasePrice");
+                var kind = device.get("kind");
 
-            document.getElementById("notesField").value = notes;
-            document.getElementById("colorField").value = color;
-            document.getElementById("modelField").value = model;
-            document.getElementById("idField").value = atpId;
-            document.getElementById("valueField").value = value;
-            document.getElementById("partTitle").innerHTML = model + " " + kind;
-            document.getElementById("kindField").value = kind;
+                document.getElementById("notesField").value = notes;
+                document.getElementById("colorField").value = color;
+                document.getElementById("modelField").value = model;
+                document.getElementById("idField").value = atpId;
+                document.getElementById("valueField").value = value;
+                document.getElementById("partTitle").innerHTML = model + " " + kind;
+                document.getElementById("kindField").value = kind;
 
-            // var data = {
-            //     notes: notes,
-            //     forSaleAt: forSaleAt,
-            //     color: color,
-            //     isForSale: isForSale,
-            //     imei: imei,
-            //     model: model,
-            //     atId: atId,
-            //     carrier: carrier,
-            //     capacity: capacity,
-            //     condition: condition,
-            //     isClean: isClean,
-            //     value: value,
-            //     modelId: modelId
-            // };
-            // console.log(data);
-
-            $('.deviceDetail').show()
-            $(".loadingView").hide();
+                $('.deviceDetail').show()
+                $(".loadingView").hide();
+            }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
         }
-    },
-    error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-    }
-});
+    });
+} else {
+    console.log("weofijewfoij")
+    $('.deviceDetail').show()
+    $(".loadingView").hide();
+}
 
 function cancel() {
     window.open("parts.html", "_self");
+}
+
+function deleteObject() {
+    $('.deviceDetail').hide();
+    $(".loadingView").show();
+    device.destroy({
+        success: function(device) {
+            // The object was deleted from the Parse Cloud.
+            cancel();
+        },
+        error: function(device, error) {
+            // The delete failed.
+            // error is a Parse.Error with an error code and message.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
 }
 
 function update() {
@@ -151,7 +164,9 @@ function update() {
     // Create a pointer to an object of class Point with id dlkj83d
     var DeviceClass = Parse.Object.extend("parts");
     var device = new DeviceClass();
-    device.id = deviceParseId;
+    if (deviceId) {
+        device.id = deviceParseId;
+    }
 
     // Set a new value on quantity
 
@@ -175,8 +190,6 @@ function update() {
         }
     });
 }
-$('.deviceDetail').hide()
-$(".loadingView").show();
 </script>
 
 </html>

@@ -107,7 +107,12 @@
         <br>
         <br>
         <center>
-            <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            <div class="leftCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="deleteObject()">Delete</button>
+            </div>
+            <div class="rightCard">
+                <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
+            </div>
         </center>
     </div>
 </body>
@@ -118,6 +123,8 @@ var deviceId = getURIParameter("id");
 
 var deviceParseId;
 
+
+
 function getURIParameter(param, asArray) {
     return document.location.search.substring(1).split('&').reduce(function(p, c) {
         var parts = c.split('=', 2).map(function(param) {
@@ -127,57 +134,79 @@ function getURIParameter(param, asArray) {
         return asArray ? p.concat(parts.concat(true)[1]) : parts.concat(true)[1];
     }, []);
 }
-var devices = Parse.Object.extend("devices");
-var query = new Parse.Query(devices);
-query.equalTo("atId", deviceId);
-query.find({
-    success: function(results) {
-        if (results.length < 1) {
-            alert("Device does not exist.");
-            //window.open("index.html", "_self");
-        } else {
-            var device = results[0];
-            deviceParseId = device.id;
-            var notes = device.get("notes");
-            var forSaleAt = device.get("forSaleAt");
-            var color = device.get("color");
-            var isForSale = device.get("isForSale");
-            var imei = device.get("imei");
-            var model = device.get("model");
-            var atId = device.get("atId");
-            var carrier = device.get("carrier");
-            var capacity = device.get("capacity");
-            var condition = device.get("condition");
-            var isClean = device.get("isClean");
-            var value = device.get("value");
-            var modelId = device.get("modelId");
+if (deviceId) {
+    var devices = Parse.Object.extend("devices");
+    var query = new Parse.Query(devices);
+    query.equalTo("atId", deviceId);
+    query.find({
+        success: function(results) {
+            if (results.length < 1) {
+                alert("Device does not exist.");
+                //window.open("index.html", "_self");
+            } else {
+                var device = results[0];
+                deviceParseId = device.id;
+                var notes = device.get("notes");
+                var forSaleAt = device.get("forSaleAt");
+                var color = device.get("color");
+                var isForSale = device.get("isForSale");
+                var imei = device.get("imei");
+                var model = device.get("model");
+                var atId = device.get("atId");
+                var carrier = device.get("carrier");
+                var capacity = device.get("capacity");
+                var condition = device.get("condition");
+                var isClean = device.get("isClean");
+                var value = device.get("value");
+                var modelId = device.get("modelId");
 
-            document.getElementById("notesField").value = notes;
-            document.getElementById("sellingAtField").value = forSaleAt;
-            document.getElementById("colorField").value = color;
-            document.getElementById("isSellingField").checked = isForSale;
-            document.getElementById("imeiField").value = imei;
-            document.getElementById("modelField").value = model;
-            document.getElementById("idField").value = atId;
-            document.getElementById("carrierField").value = carrier;
-            document.getElementById("sizeField").value = capacity;
-            document.getElementById("qualityField").value = condition;
-            document.getElementById("isCleanField").checked = isClean;
-            document.getElementById("valueField").value = "$" + value;
-            document.getElementById("modelNumberField").value = modelId;
-            document.getElementById("deviceTitle").innerHTML = model;
+                document.getElementById("notesField").value = notes;
+                document.getElementById("sellingAtField").value = forSaleAt;
+                document.getElementById("colorField").value = color;
+                document.getElementById("isSellingField").checked = isForSale;
+                document.getElementById("imeiField").value = imei;
+                document.getElementById("modelField").value = model;
+                document.getElementById("idField").value = atId;
+                document.getElementById("carrierField").value = carrier;
+                document.getElementById("sizeField").value = capacity;
+                document.getElementById("qualityField").value = condition;
+                document.getElementById("isCleanField").checked = isClean;
+                document.getElementById("valueField").value = "$" + value;
+                document.getElementById("modelNumberField").value = modelId;
+                document.getElementById("deviceTitle").innerHTML = model;
 
-            $('.deviceDetail').show()
-            $(".loadingView").hide();
+                $('.deviceDetail').show()
+                $(".loadingView").hide();
+            }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
         }
-    },
-    error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-    }
-});
+    });
+} else {
+    console.log("weofijewfoij")
+    $('.deviceDetail').show()
+    $(".loadingView").hide();
+}
 
 function cancel() {
     window.open("devices.html", "_self");
+}
+
+function deleteObject() {
+    $('.deviceDetail').hide();
+    $(".loadingView").show();
+    device.destroy({
+        success: function(device) {
+            // The object was deleted from the Parse Cloud.
+            cancel();
+        },
+        error: function(device, error) {
+            // The delete failed.
+            // error is a Parse.Error with an error code and message.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
 }
 
 function update() {
@@ -186,7 +215,9 @@ function update() {
     // Create a pointer to an object of class Point with id dlkj83d
     var DeviceClass = Parse.Object.extend("devices");
     var device = new DeviceClass();
-    device.id = deviceParseId;
+    if (deviceId) {
+        device.id = deviceParseId;
+    }
 
     // Set a new value on quantity
     device.set("notes", document.getElementById("notesField").value);
@@ -215,8 +246,6 @@ function update() {
         }
     });
 }
-$('.deviceDetail').hide()
-$(".loadingView").show();
 </script>
 
 </html>
