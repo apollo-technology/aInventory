@@ -43,7 +43,7 @@ function swappaSeller () {
 Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
 Parse.serverURL = 'https://parseapi.back4app.com';
 
-function addRow(id, device, color) {
+function addRow(id, device, quality, color) {
     if (!document.getElementsByTagName) return;
     tabBody = document.getElementsByTagName("tbody").item(0);
 
@@ -60,16 +60,20 @@ function addRow(id, device, color) {
     cell1 = document.createElement("td");
     cell2 = document.createElement("td");
     cell3 = document.createElement("td");
+    cell4 = document.createElement("td");
     textnode1 = document.createTextNode("id: " + id);
     textnode2 = document.createTextNode(device);
     textnode3 = document.createTextNode(color);
+    textnode4 = document.createTextNode(quality);
     cell1.appendChild(btn);
     cell1.appendChild(textnode1);
     cell2.appendChild(textnode2);
     cell3.appendChild(textnode3);
+    cell4.appendChild(textnode4);
     row.appendChild(cell1);
     row.appendChild(cell2);
     row.appendChild(cell3);
+    row.appendChild(cell4);
     tabBody.appendChild(row);
 }
 
@@ -101,7 +105,8 @@ function startSearch() {
                     var id = object.get("atId");
                     var model = object.get("model");
                     var color = object.get("color");
-                    addRow(id, model, color);
+                    var quality = object.get("condition");
+                    addRow(id, model, color, quality);
 
                     $('.loadingView').hide()
                     $(".deviceDetail").show();
