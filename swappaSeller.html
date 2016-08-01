@@ -267,14 +267,14 @@ function phoneCondition() {
 }
 
 function createListing() {
-    document.getElementById("titleValue").innerHTML = "Apple " + phoneType() + " (" + phoneCarrier() + ") [" + phoneModel() + "], " + phoneColor() + ", " + phoneCapacity() + ", in " + phoneCondition() + " condition, FREE EXPEDITED SHIPPING!";
+    document.getElementById("titleValue").innerHTML = phoneCondition() + " condition, Trusted Seller, Perfect Funcionality, FREE EXPEDITED SHIPPING!";
     document.getElementById("descripionValue").innerHTML = phoneCondition() + " condition. Running latest iOS. CLEAN IMEI and CLEAN iCloud Lock. Low price! " + phoneCondition() + " condition. " + phoneCarrier() + ". Our goal is to make a quick and easy purchase for you. We assure that this device has been thoroughly inspected and tested by our technician prior to posting device for sale. We stand by our devices and guarantee clean iCloud Lock, perfect functionality, and little to no signs of use. We are happy to answer any questions!";
     document.getElementById("damageValue").innerHTML = "This device does not have any damages and has not needed any repairs!";
     document.getElementById("shippingValue").innerHTML = "Carrier: USPS Priority Mail\nApproximated Shipping Time: 2-3 Business Day\nShipping cost: $5.00 (included in price)";
     if (document.getElementById("carrierUnlocked").checked == true) {
         document.getElementById("returnsValue").innerHTML = "Returns are not accepted. If buyers receive an item not as described or if a device cannot be activated because of a buyers location, buyers may request a refund. Buyers must pay for return shipping.";
     } else {
-        document.getElementById("returnsValue").innerHTML = "Returns are not accepted. If buyers receive an item not as described, buyers may request a refund. Buyers must pay for return shipping. ";
+        document.getElementById("returnsValue").innerHTML = "Returns are not accepted. If buyers receive an item not as described, buyers may request a refund. Buyers are responsible for return shipping. ";
     }
 }
 </script>
