@@ -2,17 +2,122 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="styles.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="parse.js"></script>
 <title>Apollo | Protect</title>
 
 <body>
     <ul class="w3-navbar w3-border w3-light-grey">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="home.html">Home</a></li>
         <li><a href="devices.html">Devices</a></li>
         <li><a href="parts.html">Parts</a></li>
         <li><a href="repairs.html">Repairs</a></li>
         <li><a class="w3-blue" href="protect.html">Apollo Protect</a></li>
         <li><a href="swappa.html">Swappa Seller</a></li>
+        <li class="w3-right"><a onclick="update()">Save</a></li>
     </ul>
 </body>
+<div class="w3-row">
+    <div class="w3-container w3-third">
+        <center>
+            <p style="font-size:32px;font-weight:bold;margin-bottom:-10px;">Elijah</p>
+            <p class="inputFieldText">iPhone 5/5S/5C/SE</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eli5">
+            <p class="inputFieldText">iPhone 6/6S</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eli6">
+            <p class="inputFieldText">iPhone 6 Plus/6S Plus</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eli6P">
+        </center>
+    </div>
+    <div class="w3-container w3-third">
+        <center>
+            <p style="font-size:32px;font-weight:bold;margin-bottom:-10px;">Austin</p>
+            <p class="inputFieldText">iPhone 5/5S/5C/SE</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="aus5">
+            <p class="inputFieldText">iPhone 6/6S</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="aus6">
+            <p class="inputFieldText">iPhone 6 Plus/6S Plus</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="aus6P">
+        </center>
+    </div>
+    <div class="w3-container w3-third">
+        <center>
+            <p style="font-size:32px;font-weight:bold;margin-bottom:-10px;">Edany</p>
+            <p class="inputFieldText">iPhone 5/5S/5C/SE</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eda5">
+            <p class="inputFieldText">iPhone 6/6S</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eda6">
+            <p class="inputFieldText">iPhone 6 Plus/6S Plus</p>
+            <input type="text" class="inputField" placeholder="Quantity" id="eda6P">
+        </center>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
+Parse.serverURL = 'https://parseapi.back4app.com';
+
+var protectObject;
+
+var GameScore = Parse.Object.extend("protect");
+var query = new Parse.Query(GameScore);
+query.get("Z1E3LGkbZV", {
+    success: function(protect) {
+    	protectObject = protect;
+        // The object was retrieved successfully.
+        document.getElementById("eli5").value = protect.get("eli5");
+        document.getElementById("eli6").value = protect.get("eli6");
+        document.getElementById("eli6P").value = protect.get("eli6P");
+
+        document.getElementById("aus5").value = protect.get("aus5");
+        document.getElementById("aus6").value = protect.get("aus6");
+        document.getElementById("aus6P").value = protect.get("aus6P");
+
+        document.getElementById("eda5").value = protect.get("eda5");
+        document.getElementById("eda6").value = protect.get("eda6");
+        document.getElementById("eda6P").value = protect.get("eda6P");
+
+        $('.deviceDetail').show();
+        $(".loadingView").hide();
+    },
+    error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
+        alert("Error: " + error.code + " " + error.message);
+    }
+});
+function cancel() {
+    window.open("index.html", "_self");
+}
+
+function update() {
+	protectObject.set("eli5",document.getElementById("eli5").value);
+	protectObject.set("eli6",document.getElementById("eli6").value);
+	protectObject.set("eli6P",document.getElementById("eli6P").value);
+
+	protectObject.set("aus5",document.getElementById("aus5").value);
+	protectObject.set("aus6",document.getElementById("aus6").value);
+	protectObject.set("aus6P",document.getElementById("aus6P").value);
+
+	protectObject.set("eda5",document.getElementById("eda5").value);
+	protectObject.set("eda6",document.getElementById("eda6").value);
+	protectObject.set("eda6P",document.getElementById("eda6P").value);
+
+	protectObject.save(null, {
+        success: function(protectObject) {
+            // Saved successfully.
+            window.open("index.html", "_self");
+        },
+        error: function(device, error) {
+            // The save failed.
+            // error is a Parse.Error with an error code and description.
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+
+}
+</script>
 
 </html>

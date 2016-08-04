@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<title>Apollo | Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="styles.css">
+
+<body>
+    <ul class="w3-navbar w3-border w3-light-grey">
+        <li><a class="w3-blue" href="home.html">Home</a></li>
+        <li><a href="devices.html">Devices</a></li>
+        <li><a href="parts.html">Parts</a></li>
+        <li><a href="repairs.html">Repairs</a></li>
+        <li><a href="protect.html">Apollo Protect</a></li>
+        <li><a href="swappa.html">Swappa Seller</a></li>
+        <li class="w3-right"><a href="index.html">Sign Out</a></li>
+    </ul>
+    <!-- Header -->
+    <div class="w3-container w3-blue w3-center w3-padding-128">
+        <h1 class="w3-margin w3-jumbo">Inventory</h1>
+        <button class="button" onclick="apollo()">View Apollo</button>
+    </div>
+    <!-- First Grid -->
+    <div class="w3-row-padding w3-padding-64 w3-container">
+        <div class="w3-content">
+            <div class="w3-twothird">
+                <h1>Apollo Technology</h1>
+                <h5 class="w3-padding-32">Hello, you have reached Inventory. A website created by Apollo Technology to track and manage all inventory. This website is linked with a backend that stores all information across platforms.</h5>
+                <h5 class="w3-padding-32">Also Avaiable to you is an <a href=""><i>iOS app</i></a>. The app features all the information found on this website, but in a clean, mobile view. A Mac app might be coming soon, but it would be pretty similar to here.</h5>
+            </div>
+            <div class="w3-third w3-center">
+                <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Used to toggle the menu on small screens when clicking on the menu button
+    function myFunction() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+
+    function apollo() {
+        window.open("http://www.apollotechnology.co");
+    }
+    </script>
+</body>
+
+</html>

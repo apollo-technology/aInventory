@@ -2,18 +2,49 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
-<title>Apollo | Home</title>
 
-<body>
-    <ul class="w3-navbar w3-border w3-light-grey">
-        <li><a class="w3-blue" href="index.html">Home</a></li>
-        <li><a href="devices.html">Devices</a></li>
-        <li><a href="parts.html">Parts</a></li>
-        <li><a href="repairs.html">Repairs</a></li>
-        <li><a href="protect.html">Apollo Protect</a></li>
-        <li><a href="swappa.html">Swappa Seller</a></li>
-    </ul>
-    
+<body class="w3-container">
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-center">
+                <br>
+                <img src="icon.jpg" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+            </div>
+            <div class="w3-container">
+                <div class="w3-section">
+                    <label><b>Username</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Username" name="usrname" required id="u">
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Password" name="psw" required id="p">
+                    <button class="w3-btn-block w3-blue w3-section w3-padding" onclick="login()">Login</button>
+                </div>
+            </div>
+            <div class="w3-container w3-border-top w3-light-grey">
+                <center>
+                    <p>Apollo Technology, LLC.</p>
+                </center>
+            </div>
+        </div>
+    </div>
 </body>
+<script type="text/javascript">
+document.getElementById('id01').style.display = 'block'
+
+function login() {
+    // body...
+    var u = document.getElementById("u").value;
+    var p = document.getElementById("p").value;
+    console.log(u + p);
+    if (u == "elijah" | u == "austin" | u == "daniel" | u == "guest") {
+        if (p == "1368" | p == "1368" | p == "1368" | p == "1368") {
+            window.open("home.html", "_self");
+        } else {
+            window.open("index.html", "_self");
+        }
+    } else {
+        window.open("index.html", "_self");
+    }
+}
+</script>
 
 </html>

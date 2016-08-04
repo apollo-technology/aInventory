@@ -3,16 +3,93 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
 <title>Apollo | Swappa</title>
+<style type="text/css">
+body {
+    font-family: verdana;
+    background-color: white;
+}
+
+.hoverButtonLight {
+    background-color: #4CAF50;
+    font-family: verdana;
+    /* Green */
+    border: none;
+    color: #02a7f4;
+    padding: 10px 14px;
+    text-align: center;
+    width: 40%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #02a7f4;
+    border-radius: 5px;
+}
+
+.hoverButtonLight:hover {
+    background-color: #02a7f4;
+    color: white;
+}
+</style>
 
 <body>
     <ul class="w3-navbar w3-border w3-light-grey">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="home.html">Home</a></li>
         <li><a href="devices.html">Devices</a></li>
         <li><a href="parts.html">Parts</a></li>
         <li><a href="repairs.html">Repairs</a></li>
         <li><a href="protect.html">Apollo Protect</a></li>
         <li><a class="w3-blue" href="swappa.html">Swappa Seller</a></li>
+        <li class="w3-right"><a onclick="createListing()">Create Listing</a></li>
     </ul>
+    <div class="w3-row">
+        <div class="w3-col" style="width:10%; margin-left:20px;">
+            <h3>Carrier</h3>
+            <select name="carrier" id="carrierField">
+                <option value="-">-</option>
+                <option value="GSM">GSM</option>
+                <option value="CDMA">CDMA</option>
+                <option value="Unlocked">Unlocked</option>
+            </select>
+            <h3>Condition</h3>
+            <select name="quality" id="qualityField">
+                <option value="-">-</option>
+                <option value="Fair">Fair</option>
+                <option value="Near Mint">Near Mint</option>
+                <option value="Mint">Mint</option>
+            </select>
+        </div>
+        <div class="w3-rest">
+            <div class="rightCard">
+                <h3>Title</h3>
+                <p id="titleValue"></p>
+                <h3>Description</h3>
+                <p id="descripionValue"></p>
+                <h3>Damage</h3>
+                <p id="damageValue"></p>
+                <h3>Shipping</h3>
+                <p id="shippingValue"></p>
+                <h3>Returns</h3>
+                <p id="returnsValue"></p>
+            </div>
+        </div>
+    </div>
 </body>
+<script type="text/javascript">
+function createListing() {
+    var phoneCondition = document.getElementById("qualityField").value;
+    var phoneCarrier = document.getElementById("carrierField").value;
+
+    document.getElementById("titleValue").innerHTML = phoneCondition + " condition, Trusted Seller, Perfect Funcionality, FREE EXPEDITED SHIPPING!";
+    document.getElementById("descripionValue").innerHTML = phoneCondition + " condition. Running latest iOS. CLEAN IMEI and CLEAN iCloud Lock. Low price! " + phoneCondition + " condition. " + phoneCarrier + ". Our goal is to make a quick and easy purchase for you. We assure that this device has been thoroughly inspected and tested by our technician prior to posting device for sale. We stand by our devices and guarantee clean iCloud Lock, perfect functionality, and little to no signs of use. We are happy to answer any questions!";
+    document.getElementById("damageValue").innerHTML = "This device does not have any damages and has not needed any repairs!";
+    document.getElementById("shippingValue").innerHTML = "Ships with USPS Priority Mail, an expedited 2-3 business day shipping service.";
+    document.getElementById("returnsValue").innerHTML = "Returns are not accepted. If buyers receive an item not as described or if a device cannot be activated because of a buyers location, buyers may request a refund. Buyers must pay for return shipping.";
+}
+</script>
 
 </html>
