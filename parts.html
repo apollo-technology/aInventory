@@ -2,17 +2,12 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="styles.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="parse.js"></script>
 <title>Apollo | Parts</title>
 
 <body>
-    <div id="id01" class="w3-modal">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-                <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn">&times;</span>
-                <p id="notes">Some text. Some text. Some text.</p>
-            </div>
-        </div>
-    </div>
     <ul class="w3-navbar w3-border w3-light-grey">
         <li><a href="index.html">Home</a></li>
         <li><a href="devices.html">Devices</a></li>
@@ -20,6 +15,7 @@
         <li><a href="repairs.html">Repairs</a></li>
         <li><a href="protect.html">Apollo Protect</a></li>
         <li><a href="swappa.html">Swappa Seller</a></li>
+        <li class="w3-right"><a href="http://www.google.com">New Part</a></li>
     </ul>
     <table class="w3-table w3-striped">
         <tr>
@@ -27,37 +23,76 @@
             <th>Model</th>
             <th>Kind</th>
             <th>Color</th>
-            <th>Notes</th>
         </tr>
-        <tr>
-            <td>32</td>
-            <td>iPhone 6</td>
-            <td>OEM Screen</td>
-            <td>Dark</td>
-            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
-        </tr>
-        <tr>
-            <td>33</td>
-            <td>iPhone 6</td>
-            <td>OEM Screen</td>
-            <td>Light</td>
-            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
-        </tr>
-        <tr>
-            <td>34</td>
-            <td>iPhone 6</td>
-            <td>Cracked Screen</td>
-            <td>Dark</td>
-            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
-        </tr>
+        <tbody>
+        </tbody>
     </table>
 </body>
 <script type="text/javascript">
-function showNotes() {
-    // body...
-    document.getElementById('id01').style.display = 'block';
-    document.getElementById("notes").innerHTML = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Donec elementum ligula eu sapien consequat eleifend. Donec nec dolor erat.";
+Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
+Parse.serverURL = 'https://parseapi.back4app.com';
+
+function addRow(id, model, kind, color) {
+    if (!document.getElementsByTagName) return;
+    tabBody = document.getElementsByTagName("tbody").item(0);
+
+    row = document.createElement("tr")
+    cell1 = document.createElement("td");
+    cell2 = document.createElement("td");
+    cell3 = document.createElement("td");
+    cell4 = document.createElement("td");
+    cell5 = document.createElement("td");
+    textnode1 = document.createTextNode(id);
+    textnode2 = document.createTextNode(model);
+    textnode3 = document.createTextNode(kind);
+    textnode4 = document.createTextNode(color);
+    var a = document.createElement('a');
+    var textnode5 = document.createTextNode("Edit");
+    a.appendChild(textnode5);
+    a.href = "part.html?id=" + id;
+    document.body.appendChild(a);
+    cell1.appendChild(textnode1);
+    cell2.appendChild(textnode2);
+    cell3.appendChild(textnode3);
+    cell4.appendChild(textnode4);
+    cell5.appendChild(a);
+    row.appendChild(cell1);
+    row.appendChild(cell2);
+    row.appendChild(cell3);
+    row.appendChild(cell4);
+    row.appendChild(cell5);
+    tabBody.appendChild(row);
 }
+
+function startSearch() {
+    // body...
+    var teamClass = Parse.Object.extend("parts");
+    var query = new Parse.Query(teamClass);
+    query.ascending("atpId");
+    query.find({
+        success: function(results) {
+            if (results.length == 0) {
+                console.log("Did not find a class");
+                window.open("index.html", "_self");
+                alert("Well, looks like there are no parts in inventory!");
+            } else {
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) {
+                    var object = results[i];
+                    var id = object.get("atpId");
+                    var model = object.get("model");
+                    var kind = object.get("kind");
+                    var color = object.get("color");
+                    addRow(id, model, kind, color);
+                }
+            }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+}
+startSearch();
 </script>
 
 </html>
