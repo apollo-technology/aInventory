@@ -4,14 +4,25 @@
 <head>
     <title>Device</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="w3.css">
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="parse.js"></script>
 </head>
 
-<body>
+<body style="background-color:white;margin:0px;">
     <center>
-        <div class="leftCard">
-            <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Devices</button>
+        <div style="margin-top:30px;">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <button id="loadButton" class="hoverButtonLight" onclick="cancel()">Back</button>
+                </div>
+                <div class="w3-container w3-third">
+                    <button id="loadButton" class="hoverButtonDelete" onclick="cancel()">Delete</button>
+                </div>
+                <div class="w3-container w3-third">
+                    <button id="loadButton" class="hoverButtonLight" onclick="cancel()">Update</button>
+                </div>
+            </div>
         </div>
     </center>
     <div class="loadingView">
@@ -20,100 +31,77 @@
             <img src="loading.gif" style="width:15%">
         </center>
     </div>
-    <div class="deviceDetail">
-        <p class="deviceTitle" id="deviceTitle" style="text-align:center">iPhone Model</p>
-        <p class="inputFieldText">Device ID</p>
-        <input type="text" class="inputField" placeholder="Device ID" id="idField">
-        <br>
-        <p class="inputFieldText">Model Number</p>
-        <input type="text" class="inputField" placeholder="Model Number" id="modelNumberField">
-        <br>
-        <p class="inputFieldText">IMEI</p>
-        <input type="text" class="inputField" placeholder="IMEI" id="imeiField">
-        <br>
-        <p class="inputFieldText">Carrier</p>
-        <select name="carrier" id="carrierField">
-            <option value="GSM">GSM</option>
-            <option value="CDMA">CDMA</option>
-            <option value="Unlocked">Unlocked</option>
-        </select>
-        <br>
-        <p class="inputFieldText">Size</p>
-        <select name="capacity" id="sizeField">
-            <option value="8GB">8 GB</option>
-            <option value="16GB">16 GB</option>
-            <option value="32GB">32 GB</option>
-            <option value="64GB">64 GB</option>
-            <option value="128GB">128 GB</option>
-        </select>
-        <br>
-        <p class="inputFieldText">Model</p>
-        <select name="model" id="modelField">
-            <option value="iPhone 4">iPhone 4</option>
-            <option value="iPhone 4s">iPhone 4S</option>
-            <option value="iPhone 5">iPhone 5</option>
-            <option value="iPhone 5c">iPhone 5C</option>
-            <option value="iPhone 5s">iPhone 5S</option>
-            <option value="iPhone SE">iPhone SE</option>
-            <option value="iPhone 6">iPhone 6</option>
-            <option value="iPhone 6+">iPhone 6 Plus</option>
-            <option value="iPhone 6s">iPhone 6S</option>
-            <option value="iPhone 6s+">iPhone 6S Plus</option>
-        </select>
-        <br>
-        <p class="inputFieldText">Color</p>
-        <select name="color" id="colorField">
-            <option value="Space Gray">Space Gray</option>
-            <option value="Silver">Silver</option>
-            <option value="Gold">Gold</option>
-            <option value="Rose Gold">Rose Gold</option>
-            <option value="White">White</option>
-            <option value="Black">Black</option>
-            <option value="Blue">Blue</option>
-            <option value="Green">Green</option>
-            <option value="Yellow">Yellow</option>
-            <option value="Pink">Pink</option>
-        </select>
-        <br>
-        <p class="inputFieldText">Value</p>
-        <input type="text" class="inputField" placeholder="Value" id="valueField">
-        <br>
-        <p class="inputFieldText">Is Clean</p>
-        <!-- <input type="text" class="inputField" placeholder="Is Clean" id="isCleanField"> -->
-        <input type="checkbox" name="vehicle" value="Bike" id="isCleanField">
-        <br>
-        <p class="inputFieldText">Selling At</p>
-        <select name="selling" id="sellingAtField">
-            <option value="eBay">eBay</option>
-            <option value="Swappa">Swappa</option>
-            <option value="Both">Both</option>
-            <option value="None">None</option>
-        </select>
-        <br>
-        <p class="inputFieldText">Is Selling</p>
-        <!-- <input type="text" class="inputField" placeholder="Is Selling" id="isSellingField"> -->
-        <input type="checkbox" name="vehicle" value="Bike" id="isSellingField">
-        <br>
-        <p class="inputFieldText">Quality</p>
-        <select name="quality" id="qualityField">
-            <option value="Fair">Fair</option>
-            <option value="Good">Good</option>
-            <option value="Mint">Mint</option>
-            <option value="New">New</option>
-        </select>
-        <br>
+    <div class="deviceView">
+        <p style="color:white;">0</p>
+        <div class="w3-row">
+            <div class="w3-container w3-third">
+                <p class="inputFieldText">Device ID</p>
+                <input type="text" class="inputField" placeholder="Device ID" id="idField">
+                <br>
+                <p class="inputFieldText">Model Number</p>
+                <input type="text" class="inputField" placeholder="Model Number" id="modelNumberField">
+                <br>
+                <p class="inputFieldText">IMEI</p>
+                <input type="text" class="inputField" placeholder="IMEI" id="imeiField">
+            </div>
+            <div class="w3-container w3-third">
+                <p class="inputFieldText">Model</p>
+                <select name="model" id="modelField">
+                    <option value="iPhone 4">iPhone 4</option>
+                    <option value="iPhone 4s">iPhone 4S</option>
+                    <option value="iPhone 5">iPhone 5</option>
+                    <option value="iPhone 5c">iPhone 5C</option>
+                    <option value="iPhone 5s">iPhone 5S</option>
+                    <option value="iPhone SE">iPhone SE</option>
+                    <option value="iPhone 6">iPhone 6</option>
+                    <option value="iPhone 6+">iPhone 6 Plus</option>
+                    <option value="iPhone 6s">iPhone 6S</option>
+                    <option value="iPhone 6s+">iPhone 6S Plus</option>
+                </select>
+                <br>
+                <p class="inputFieldText">Carrier</p>
+                <select name="carrier" id="carrierField">
+                    <option value="GSM">GSM</option>
+                    <option value="CDMA">CDMA</option>
+                    <option value="Unlocked">Unlocked</option>
+                </select>
+                <br>
+                <p class="inputFieldText">Quality</p>
+                <select name="quality" id="qualityField">
+                    <option value="Fair">C</option>
+                    <option value="Good">B</option>
+                    <option value="Mint">A</option>
+                </select>
+            </div>
+            <div class="w3-container w3-third">
+                <p class="inputFieldText">Size</p>
+                <select name="capacity" id="sizeField">
+                    <option value="8GB">8 GB</option>
+                    <option value="16GB">16 GB</option>
+                    <option value="32GB">32 GB</option>
+                    <option value="64GB">64 GB</option>
+                    <option value="128GB">128 GB</option>
+                </select>
+                <br>
+                <p class="inputFieldText">Color</p>
+                <select name="color" id="colorField">
+                    <option value="Space Gray">Space Gray</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Rose Gold">Rose Gold</option>
+                    <option value="White">White</option>
+                    <option value="Black">Black</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Pink">Pink</option>
+                </select>
+            </div>
+        </div>
         <p class="inputFieldText">Notes</p>
         <textarea type="text" class="inputField" placeholder="Notes" id="notesField" style="height:100px;"></textarea>
         <br>
         <br>
-        <center>
-            <div class="leftCard">
-                <button id="loadButton" class="hoverButtonLight" onclick="deleteObject()">Delete</button>
-            </div>
-            <div class="rightCard">
-                <button id="loadButton" class="hoverButtonLight" onclick="update()">Update</button>
-            </div>
-        </center>
     </div>
 </body>
 <script type="text/javascript">
@@ -147,33 +135,24 @@ if (deviceId) {
                 var device = results[0];
                 deviceParseId = device.id;
                 var notes = device.get("notes");
-                var forSaleAt = device.get("forSaleAt");
                 var color = device.get("color");
-                var isForSale = device.get("isForSale");
                 var imei = device.get("imei");
                 var model = device.get("model");
                 var atId = device.get("atId");
                 var carrier = device.get("carrier");
                 var capacity = device.get("capacity");
                 var condition = device.get("condition");
-                var isClean = device.get("isClean");
-                var value = device.get("value");
                 var modelId = device.get("modelId");
 
                 document.getElementById("notesField").value = notes;
-                document.getElementById("sellingAtField").value = forSaleAt;
                 document.getElementById("colorField").value = color;
-                document.getElementById("isSellingField").checked = isForSale;
                 document.getElementById("imeiField").value = imei;
                 document.getElementById("modelField").value = model;
                 document.getElementById("idField").value = atId;
                 document.getElementById("carrierField").value = carrier;
                 document.getElementById("sizeField").value = capacity;
                 document.getElementById("qualityField").value = condition;
-                document.getElementById("isCleanField").checked = isClean;
-                document.getElementById("valueField").value = "$" + value;
                 document.getElementById("modelNumberField").value = modelId;
-                document.getElementById("deviceTitle").innerHTML = model;
 
                 $('.deviceDetail').show()
                 $(".loadingView").hide();

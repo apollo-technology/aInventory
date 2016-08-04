@@ -58,15 +58,18 @@ h1 {
 
 .inputField {
     width: 90%;
-    height: 20px;
+    height: 40px;
     margin-top: 0px;
     padding: 8px 16px;
     font-family: clearSansRegular;
+    font-size: 18px;
     text-align: left;
 }
 
 .inputFieldText {
     margin-bottom: 0px;
+    font-size: 28px;
+    font-weight: bolder;
 }
 
 input {
@@ -129,7 +132,7 @@ input {
 
 .deviceDetail {
     display: inline-block;
-    width: 40%;
+    width: 50%;
     margin-top: 100px;
     background-color: white;
     padding: 32px;
@@ -141,6 +144,15 @@ input {
     position: absolute;
     left: 50%;
     margin-left: -300px;
+}
+
+.deviceView {
+    width: 80%;
+    padding: 32px;
+    color: black;
+    font-family: clearSansRegular;
+    font-size: 20px;
+    text-align: left;
 }
 
 .smallCard {
@@ -162,7 +174,7 @@ input {
     color: #02a7f4;
     padding: 10px 14px;
     text-align: center;
-    width: 40%;
+    width: 80%;
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
@@ -177,6 +189,32 @@ input {
 
 .hoverButtonLight:hover {
     background-color: #02a7f4;
+    color: white;
+}
+
+.hoverButtonDelete {
+    background-color: #4CAF50;
+    font-family: clearSansRegular;
+    /* Green */
+    border: none;
+    color: #d02424;
+    padding: 10px 14px;
+    text-align: center;
+    width: 80%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid #d02424;
+    margin: 5px;
+}
+
+.hoverButtonDelete:hover {
+    background-color: #d02424;
     color: white;
 }
 
