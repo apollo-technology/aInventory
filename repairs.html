@@ -1,118 +1,67 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" type="text/css" href="w3.css">
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="parse.js"></script>
-    <title>Repairs</title>
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<title>Apollo | Repairs</title>
 
 <body>
-    <div class="loadingView">
-        <center>
-            <p>Loading...</p>
-            <img src="loading.gif" style="width:15%">
-        </center>
-    </div>
-    <div class="deviceDetail" style="width:40%; margin-left: -300px;">
-        <center>
-            <h2 style="color:black;">Repairs</h2>
-            <table class="w3-table-all" style="width:100%;color:black;">
-                <tbody>
-                </tbody>
-            </table>
-        </center>
-    </div>
-    <center>
-            <div class="leftCard">
-                <button id="loadButton" class="hoverButtonDark" onclick="cancel()">Home</button>
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn">&times;</span>
+                <p id="notes">Some text. Some text. Some text.</p>
             </div>
-            <div class="rightCard">
-                <button id="loadButton" class="hoverButtonDark" onclick="newrepair()">New</button>
-            </div>
-        </center>
+        </div>
+    </div>
+    <ul class="w3-navbar w3-border w3-light-grey">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="devices.html">Devices</a></li>
+        <li><a href="parts.html">Parts</a></li>
+        <li><a class="w3-blue" href="repairs.html">Repairs</a></li>
+        <li><a href="protect.html">Apollo Protect</a></li>
+        <li><a href="swappa.html">Swappa Seller</a></li>
+    </ul>
+    <table class="w3-table w3-striped">
+        <tr>
+            <th>Name</th>
+            <th>Model</th>
+            <th>Kind</th>
+            <th>Color</th>
+            <th>Technician</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Dawson Peek</td>
+            <td>iPhone 6</td>
+            <td>Screen</td>
+            <td>Dark</td>
+            <td>Elijah</td>
+            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
+        </tr>
+        <tr>
+            <td>John Pupel</td>
+            <td>iPhone 6</td>
+            <td>Screen</td>
+            <td>Dark</td>
+            <td>Austin</td>
+            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
+        </tr>
+        <tr>
+            <td>Morgan McGrew</td>
+            <td>iPhone 6</td>
+            <td>Screen</td>
+            <td>Light</td>
+            <td>Elijah</td>
+            <td><a onclick="showNotes()"><em><span style="cursor:pointer">view</span></em></a></td>
+        </tr>
+    </table>
 </body>
 <script type="text/javascript">
-
-Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
-Parse.serverURL = 'https://parseapi.back4app.com';
-
-function addRow(name, model, objectId) {
-    if (!document.getElementsByTagName) return;
-    tabBody = document.getElementsByTagName("tbody").item(0);
-
-    var btn = document.createElement('input');
-    btn.type = "button";
-    btn.className = "btn";
-    btn.value = "View";
-    btn.onclick = function() {
-        openDevice(objectId);    };
-
-
-    row = document.createElement("tr")
-    cell1 = document.createElement("td");
-    cell2 = document.createElement("td");
-    textnode1 = document.createTextNode(name);
-    textnode2 = document.createTextNode(model);
-    cell1.appendChild(btn);
-    cell1.appendChild(textnode1);
-    cell2.appendChild(textnode2);
-    row.appendChild(cell1);
-    row.appendChild(cell2);
-    tabBody.appendChild(row);
-}
-
-function openDevice(id) {
+function showNotes() {
     // body...
-    window.open("repair.html?id=" + id, "_self");
-
+    document.getElementById('id01').style.display = 'block';
+    document.getElementById("notes").innerHTML = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Donec elementum ligula eu sapien consequat eleifend. Donec nec dolor erat,";
 }
-function cancel() {
-    // body...
-    window.open("index.html", "_self");
-
-}
-
-function newrepair() {
-    // body...
-    window.open("repair.html", "_self");
-
-}
-function startSearch() {
-    // body...
-    var teamClass = Parse.Object.extend("repairs");
-    var query = new Parse.Query(teamClass);
-    query.ascending("clientName");
-    query.find({
-        success: function(results) {
-            if (results.length == 0) {
-                console.log("Did not find a class");
-                window.open("index.html", "_self");
-                alert("Well, looks like there are no repairs in inventory!");
-            } else {
-                // Do something with the returned Parse.Object values
-                for (var i = 0; i < results.length; i++) {
-                    var object = results[i];
-                    var name = object.get("clientName");
-                    var model = object.get("model");
-                    var id = object.id;
-                    addRow(name, model, id);
-
-                    $('.loadingView').hide()
-                    $(".deviceDetail").show();
-                }
-            }
-        },
-        error: function(error) {
-            alert("Error: " + error.code + " " + error.message);
-        }
-    });
-}
-$('.deviceDetail').hide()
-$(".loadingView").show();
-startSearch();
 </script>
 
 </html>

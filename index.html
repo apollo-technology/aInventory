@@ -1,69 +1,19 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>
-        Apollo Inventory
-    </title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<title>Apollo | Home</title>
 
 <body>
-    <div class="largeCard">
-        <center>
-            <h1>Apollo Inventory</h1>
-            <button id="loadButton" class="hoverButtonLight" onclick="devices()">Devices</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="parts()">Parts</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="repairs()">Repairs</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="protect()">Apollo Protect</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="swappaseller()">Swappa Seller</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="website()">Website</button>
-            <!-- <button id="loadButton" class="hoverButtonLight" onclick="paypal()">PayPal</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="ebay()">eBay</button>
-            <button id="loadButton" class="hoverButtonLight" onclick="swappa()">Swappa</button> -->
-        </center>
-    </div>
+    <ul class="w3-navbar w3-border w3-light-grey">
+        <li><a class="w3-blue" href="index.html">Home</a></li>
+        <li><a href="devices.html">Devices</a></li>
+        <li><a href="parts.html">Parts</a></li>
+        <li><a href="repairs.html">Repairs</a></li>
+        <li><a href="protect.html">Apollo Protect</a></li>
+        <li><a href="swappa.html">Swappa Seller</a></li>
+    </ul>
+    
 </body>
-<script type="text/javascript">
-Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
-Parse.serverURL = 'https://parseapi.back4app.com';
-
-function parts () {
-    window.open("parts.html","_self");
-}
-
-function repairs () {
-    window.open("repairs.html","_self");
-}
-
-function protect () {
-    window.open("protect.html","_self");
-}
-
-function devices () {
-    window.open("devices.html","_self");
-}
-
-function paypal () {
-    window.open("https://www.paypal.com");
-}
-
-function ebay () {
-    window.open("http://www.ebay.com");
-}
-
-function swappa () {
-    window.open("https://swappa.com");
-}
-
-function swappaseller () {
-    window.open("swappaSeller.html","_self");
-}
-
-function website () {
-    window.open("http://www.apollotechnology.co");
-}
-
-</script>
 
 </html>
