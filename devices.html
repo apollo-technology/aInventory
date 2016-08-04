@@ -3,6 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
 <link rel="stylesheet" href="styles.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="parse.js"></script>
 <title>Apollo | Devices</title>
 
 <body>
@@ -26,43 +28,104 @@
             <th>Size</th>
             <th>Color</th>
         </tr>
-        <tr>
-            <td>32</td>
-            <td>GEE837</td>
-            <td>5C A1532</td>
-            <td class="imei">192836678726348</td>
-            <td>Unlocked</td>
-            <td>B</td>
-            <td>16 GB</td>
-            <td>Blue</td>
-            <td><a href="http://www.google.com"><span style="cursor:pointer"><b>View</b></span></a></td>
-        </tr>
-        <tr>
-            <td>33</td>
-            <td>EJF394</td>
-            <td>5C A1532</td>
-            <td>091298367672676</td>
-            <td>Unlocked</td>
-            <td>C</td>
-            <td>16 GB</td>
-            <td>Pink</td>
-            <td><a href="http://www.google.com"><span style="cursor:pointer"><b>View</b></span></a></td>
-        </tr>
-        <tr>
-            <td>34</td>
-            <td>AAI394</td>
-            <td>5C A1532</td>
-            <td>432345687489876</td>
-            <td>Unlocked</td>
-            <td>A</td>
-            <td>16 GB</td>
-            <td>Green</td>
-            <td><a href="http://www.google.com"><span style="cursor:pointer"><b>View</b></span></a></td>
-        </tr>
+        <tbody>
+        </tbody>
     </table>
 </body>
 <script type="text/javascript">
+Parse.initialize("qXdzVklC8KWpQ537qN3U9FZr7eLrFpYd0xepZ2bm", "x6NLNRS3G7sg6g74R1QPJ5aycu7mNJ1jthjx45nn");
+Parse.serverURL = 'https://parseapi.back4app.com';
 
+function addRow(id, swappa, model, imei, carrier, quality, size, color) {
+    if (!document.getElementsByTagName) return;
+    tabBody = document.getElementsByTagName("tbody").item(0);
+
+    row = document.createElement("tr")
+    cell1 = document.createElement("td");
+    cell2 = document.createElement("td");
+    cell3 = document.createElement("td");
+    cell4 = document.createElement("td");
+    cell5 = document.createElement("td");
+    cell6 = document.createElement("td");
+    cell7 = document.createElement("td");
+    cell8 = document.createElement("td");
+    cell9 = document.createElement("td");
+    textnode1 = document.createTextNode(id);
+    textnode2 = document.createTextNode(swappa);
+    textnode3 = document.createTextNode(model);
+    textnode4 = document.createTextNode(imei);
+    textnode5 = document.createTextNode(carrier);
+    textnode6 = document.createTextNode(quality);
+    textnode7 = document.createTextNode(size);
+    textnode8 = document.createTextNode(color);
+    var a = document.createElement('a');
+    var textnode9 = document.createTextNode("Edit");
+    a.appendChild(textnode9);
+    a.href = "device.html?id=" + id;
+    document.body.appendChild(a);
+    cell1.appendChild(textnode1);
+    cell2.appendChild(textnode2);
+    cell3.appendChild(textnode3);
+    cell4.appendChild(textnode4);
+    cell5.appendChild(textnode5);
+    cell6.appendChild(textnode6);
+    cell7.appendChild(textnode7);
+    cell8.appendChild(textnode8);
+    cell9.appendChild(a);
+    row.appendChild(cell1);
+    row.appendChild(cell2);
+    row.appendChild(cell3);
+    row.appendChild(cell4);
+    row.appendChild(cell5);
+    row.appendChild(cell6);
+    row.appendChild(cell7);
+    row.appendChild(cell8);
+    row.appendChild(cell9);
+    tabBody.appendChild(row);
+}
+
+function startSearch() {
+    // body...
+    var teamClass = Parse.Object.extend("devices");
+    var query = new Parse.Query(teamClass);
+    query.ascending("atId");
+    query.find({
+        success: function(results) {
+            if (results.length == 0) {
+                console.log("Did not find a class");
+                window.open("index.html", "_self");
+                alert("Well, looks like there are no devices in inventory!");
+            } else {
+                // Do something with the returned Parse.Object values
+                for (var i = 0; i < results.length; i++) {
+                    var object = results[i];
+                    var id = object.get("atId");
+                    var swappa = object.get("swappa");
+                    var model = object.get("model");
+                    var imei = object.get("imei");
+                    var carrier = object.get("carrier");
+                    var quality = object.get("condition");
+                    var size = object.get("capacity");
+                    var color = object.get("color");
+                    if (swappa == "") {
+                        swappa = "not on Swappa";
+                    }
+                    if (imei == "") {
+                        imei = "ENTER";
+                    }
+                    addRow(id, swappa, model, imei, carrier, quality, size, color);
+
+                    $('.loadingView').hide()
+                    $(".deviceDetail").show();
+                }
+            }
+        },
+        error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+        }
+    });
+}
+startSearch();
 </script>
 
 </html>
